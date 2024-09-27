@@ -1,7 +1,8 @@
 {
   "name": "learning_management_system",
   "version": "1.0.0",
-  "description": "This is the  backend part of the Learning Management System web app.",
+  "description": "This is the backend part of the Learning Management System web app.",
+  "type": "module",
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -18,6 +19,7 @@
     "express": "^4.21.0",
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.7.0",
+    "morgan": "^1.10.0",
     "multer": "^1.4.5-lts.1",
     "nodemailer": "^6.9.15",
     "nodemon": "^3.1.7"

@@ -1,7 +1,9 @@
-const express = require('express');
-const cors = require('cors');
-const cookieParser = require('cookie-parser');
-const { config } = require('dotenv');
+import express from "express";
+import cors from "cors";
+import cookieParser from "cookie-parser";
+import { config } from "dotenv";
+import morgan from "morgan";
+
 config();
 
 const app = express();
@@ -14,6 +16,7 @@ app.use(cors({
 }));
 
 app.use(cookieParser());
+app.use(morgan('dev'));     // a logger middleware which logs url end points when accessed
 
 app.use('/ping', (req, res)=> {
     res.send('Pong')
@@ -25,4 +28,4 @@ app.all('*', (req, res)=>{
 })
 
 
-module.exports = app;
+export default app;
