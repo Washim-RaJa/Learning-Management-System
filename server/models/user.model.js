@@ -63,6 +63,10 @@ userSchema.pre("save", async (next) => {
 
 // Defining method in userSchema
 userSchema.methods = {
+  // method which will help us compare plain password with hashed password and returns true or false
+    comparePassword: async (plainPassword)=> {
+        return await bcrypt.compare(plainPassword, this.password)
+    },
   // Will generate a JWT token with user id as payload
   generateJWTToken: async () => {
     return await jwt.sign(

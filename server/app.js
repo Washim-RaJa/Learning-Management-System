@@ -18,7 +18,7 @@ app.use(cors({
     credentials: true
 }));
 
-app.use(cookieParser());
+app.use(cookieParser());    // To parse incoming cookie when user register or logged in 
 app.use(morgan('dev'));     // a logger middleware which logs url end points when accessed
 
 app.use('/ping', (req, res)=> {
