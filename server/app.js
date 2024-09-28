@@ -4,6 +4,7 @@ import cookieParser from "cookie-parser";
 import { config } from "dotenv";
 import morgan from "morgan";
 import userRoutes from './routes/user.routes.js'
+import errorMiddleware from "./middlewares/error.middleware.js";
 
 
 config();
@@ -27,10 +28,10 @@ app.use('/ping', (req, res)=> {
 // routes of 3 modules
 app.use('api/v1/user', userRoutes)
 
-
 app.all('*', (req, res)=>{
     res.status(404).send("Oops!! 404 page not found!")
 })
 
+app.use(errorMiddleware); // A generic/global error middleware which will send error to the user.
 
 export default app;
