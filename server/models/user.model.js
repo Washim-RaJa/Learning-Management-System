@@ -1,6 +1,7 @@
 import { Schema, model } from "mongoose";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
+import crypto from 'crypto'
 
 // Defining Schema
 const userSchema = new Schema(
@@ -43,8 +44,8 @@ const userSchema = new Schema(
       enum: ["USER", "ADMIN"], // Possible types of users
       default: "USER", // Upon registration client will be created as normal user.
     },
-    forgotPassowordToken: String,
-    forgotPassowordExpiry: Date,
+    forgotPasswordToken: String,
+    forgotPasswordExpiry: Date,
   },
   { timestamps: true }
 );
@@ -64,9 +65,9 @@ userSchema.pre("save", async function (next) {
 // Defining method in userSchema
 userSchema.methods = {
   // method which will help us compare plain password with hashed password and returns true or false
-    comparePassword: async function (plainPassword) {
-        return await bcrypt.compare(plainPassword, this.password)
-    },
+  comparePassword: async function (plainPassword) {
+    return await bcrypt.compare(plainPassword, this.password);
+  },
   // Will generate a JWT token with user id as payload
   generateJWTToken: async function () {
     return await jwt.sign(
@@ -80,6 +81,24 @@ userSchema.methods = {
       { expiresIn: process.env.JWT_EXPIRY }
     );
   },
+  // This will generate a token for password reset
+  generatePasswordResetToken: async function () {
+    // creating a random token using node's built-in crypto module
+    const resetToken = crypto.randomBytes(20).toString("hex");
+
+    // Again using crypto module to hash the generated resetToken with sha256 algorithm and storing it in database
+    this.forgotPasswordToken = crypto // forgotPasswordToken is defined in userSchema
+      .createHash("sha256")
+      .update(resetToken)
+      .digest("hex");
+
+    // Adding forgot password expiry to 15 minutes from current time
+    this.forgotPasswordExpiry = Date.now() + 15 * 60 * 1000;
+
+    return resetToken;  // returning unencrypted token to user
+
+  },
+
 };
 const User = model("User", userSchema);
 
