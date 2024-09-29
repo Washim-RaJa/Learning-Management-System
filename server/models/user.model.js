@@ -50,7 +50,7 @@ const userSchema = new Schema(
 );
 
 // If user changes the password then Hash it before saving to the database.
-userSchema.pre("save", async (next) => {
+userSchema.pre("save", async function (next) {
   // Here "this" refers to the user document being saved
 
   //  If the password field has not been modified, then do not hash it and the function will return false.
@@ -64,11 +64,11 @@ userSchema.pre("save", async (next) => {
 // Defining method in userSchema
 userSchema.methods = {
   // method which will help us compare plain password with hashed password and returns true or false
-    comparePassword: async (plainPassword)=> {
+    comparePassword: async function (plainPassword) {
         return await bcrypt.compare(plainPassword, this.password)
     },
   // Will generate a JWT token with user id as payload
-  generateJWTToken: async () => {
+  generateJWTToken: async function () {
     return await jwt.sign(
       {
         id: this._id,
