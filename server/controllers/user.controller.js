@@ -140,10 +140,6 @@ const getProfile = async (req, res) => {
     return next(new AppError("Failed to fetch profile details", 500));
   }
 };
-
-
-
-// TODO :- You need to set your SMTP_HOST, SMTP_PORT, SMTP_USERNAME, SMTP_PASSWORD, SMTP_FROM_EMAIL in .env file
 const forgotPassword = async (req, res, next) => {
   const { email } = req.body;
   if (!email) {
@@ -157,6 +153,8 @@ const forgotPassword = async (req, res, next) => {
 
   await user.save(); // saving forgotPassowordToken & forgotPassowordExpiry in userSchema
 
+  console.log(resetToken);
+  
   // constructing a url to send the correct data
   const resetPasswordUrl = `${process.env.FRONTEND_URL}/reset-password/${resetToken}`;
 
@@ -224,6 +222,75 @@ const resetPassword = async (req, res, next) => {
     message: "Password changed successfully",
   });
 };
+const changePassword = async (req, res, next) => {
+  const { oldPassword, newPassword } = req.body;
+  const { id } = req.user;    // already defined in isLoggedIn middleware
+  if (!oldPassword || !newPassword) {
+    return next(new AppError("All fields are mandatory",400))
+  }
+  const user = await User.findById({ id }).select("+password"); // specifically selecting password from db
+  if (!user) {
+    return next(new AppError("User doesn't exist",400))
+  }
+  const isPasswordValid = await user.comparePassword(oldPassword)
+  if (!isPasswordValid) {
+    return next(new AppError("Invalid old password",400))
+  }
+  user.password = newPassword;
+  await user.save();
+  user.password = undefined;
+  res.status(200).json({
+    success: true,
+    message: "Password changed successfully!"
+  })
+}
+const updateUser = async (req, res, next) => {
+  const { fullName } = req.body;
+  const { id } = req.params;
 
+  const user = await User.findById(id);
 
-export { register, login, logout, getProfile, forgotPassword, resetPassword };
+  if (!user) {
+    return next(
+      new AppError("User doesn't exist", 400)
+    )
+  }
+  if (fullName) {
+    user.fullName = fullName
+  }
+  // Run only if user uploaded any profile image
+  if (req.file) {
+    // Deletes the old image uploaded by the user
+    await cloudinary.v2.uploader.destroy(user.avatar.public_id);
+
+    // Then uploads the new image sent by the user
+    try {
+      const result = await cloudinary.v2.uploader.upload(req.file.path, {
+        folder: "lms", // Save files in a folder named lms
+        width: 250,
+        height: 250,
+        gravity: "faces", // This option tells cloudinary to center the image around detected faces (if any) after cropping or resizing the original image
+        crop: "fill",
+      });
+      if (result) {
+        // Set the public_id and secure_url in DB
+        user.avatar.public_id = result.public_id;
+        user.avatar.secure_url = result.secure_url;
+
+        // After successful upload remove the file from local storage(from uploads folder)
+        fs.rm(`uploads/${req.file.filename}`);
+      }
+    } catch (error) {
+      return next(
+        new AppError(error || "File not uploaded, please try again", 400)
+      );
+    }
+  }
+
+  await user.save();
+  res.status(200).json({
+    success: true,
+    message: 'User details updated successfully',
+  })
+}
+export { register, login, logout, getProfile, forgotPassword, resetPassword, changePassword, updateUser};
