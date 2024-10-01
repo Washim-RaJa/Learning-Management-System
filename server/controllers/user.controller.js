@@ -228,7 +228,7 @@ const changePassword = async (req, res, next) => {
   if (!oldPassword || !newPassword) {
     return next(new AppError("All fields are mandatory",400))
   }
-  const user = await User.findById({ id }).select("+password"); // specifically selecting password from db
+  const user = await User.findById(id).select("+password"); // specifically selecting password from db
   if (!user) {
     return next(new AppError("User doesn't exist",400))
   }
