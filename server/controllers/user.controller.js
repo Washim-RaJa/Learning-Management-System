@@ -39,7 +39,7 @@ const register = async (req, res, next) => {
       );
     }
 
-    console.log("File Details", req.file);
+    // console.log("File Details", req.file);
     // Run only if user sends a file
     if (req.file) {
       try {
@@ -60,7 +60,7 @@ const register = async (req, res, next) => {
         }
       } catch (error) {
         return next(
-          new AppError(error || "File not uploaded, please try again", 400)
+          new AppError(error.message || "File not uploaded, please try again", 400)
         );
       }
     }

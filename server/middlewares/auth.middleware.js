@@ -13,6 +13,20 @@ const isLoggedIn = async (req, res, next) => {
     next();
 }
 
+// This is a closure which checks if user is admin or not
+const authorizeRoles = (...roles) => async (req, res, next) => {
+    const currentUserRoles = req.user.role;
+    // If given array of roles doesn't include role which requested user have
+    if (!roles.includes(currentUserRoles)) {
+        return next(
+            new AppError("You do not have permission to access this route", 403)
+        );
+    }
+    next();
+}
+
+
 export {
-    isLoggedIn
+    isLoggedIn,
+    authorizeRoles
 }
