@@ -34,13 +34,10 @@ const Signup = () => {
         ...signupData,
         avatar: uploadedImage,
       });
-      console.log(signupData.avatar);
     }
     const fileReader = new FileReader();
     fileReader.readAsDataURL(uploadedImage);
     fileReader.addEventListener("load", function () {
-      console.log(this.result);
-
       setPreviewImage(this.result);
     });
   }
@@ -78,8 +75,7 @@ const Signup = () => {
     formData.append("password", signupData.password)
     formData.append("avatar", signupData.avatar)
     const response = await dispatch(createAccount(formData));
-    console.log(response);
-    
+        
     if (response?.payload?.success) {
         navigate("/");
     }
