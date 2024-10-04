@@ -11,7 +11,7 @@ const userSchema = new Schema(
       required: [true, "Name is required"],
       lowercase: true,
       trim: true, // Removes unnecessary spaces
-      minlength: [3, "Name must be at least 5 characters"],
+      minlength: [3, "Name must be at least 3 characters"],
       maxlength: [50, "Name should be less than 50 characters"],
     },
     email: {
