@@ -7,7 +7,7 @@ const initialState = {
     role: localStorage.getItem('role') || '',
     data: localStorage.getItem('data') || {}
 }
-// "/auth/signup" string uniquely identifies our thunk
+// "/auth/signup" string uniquely identifies our signup thunk
 export const createAccount = createAsyncThunk("/auth/signup", async (data)=> {
     try {
         const res = axiosInstance.post('user/register', data);
@@ -23,10 +23,64 @@ export const createAccount = createAsyncThunk("/auth/signup", async (data)=> {
         toast.error(error?.response?.data?.message)
     }
 })
+// "/auth/login" string uniquely identifies our login thunk
+export const login = createAsyncThunk("/auth/login", async (data)=> {
+    try {
+        const res = axiosInstance.post('user/login', data);
+        toast.promise(res, {
+            loading: "Please wait! authentication in progress...",
+            success: (data) => {
+                return data?.data?.message
+            },
+            error: "Failed to log in"
+        })
+        return (await res).data;
+    } catch (error) {
+        toast.error(error?.response?.data?.message)
+    }
+})
+
+export const logout = createAsyncThunk('auth/logout', async ()=>{
+    try {
+        const res = axiosInstance.get("user/logout");
+        toast.promise(res, {
+            loading: "Logging out please wait!",
+            success: (data) => {
+                return data?.data?.message
+            },
+            error: "Failed to Log out"
+        })
+        return (await res).data
+    } catch (error) {
+        toast.error(error?.response?.data?.message)
+    }
+})
 const authSlice = createSlice({
     name: 'auth',
     initialState,
-    reducers: {}
+    reducers: {},
+    extraReducers: (builder)=>{
+        builder
+            .addCase(login.fulfilled, (state, action)=>{
+                // This data will fetch when app reloads
+                localStorage.setItem('data', JSON.stringify(action?.payload?.user));
+                localStorage.setItem('isLoggedIn', true);
+                localStorage.setItem('role', action?.payload?.user?.role)
+                // This is for updating the state imidiately after login for current session
+                state.isLoggedIn = true;
+                state.data = action?.payload?.user;
+                state.role = action?.payload?.user?.role
+            })
+            .addCase(logout.fulfilled, (state)=>{
+                localStorage.removeItem('data');
+                localStorage.removeItem('isLoggedIn');
+                localStorage.removeItem('role')
+                // This is for updating the state imidiately after log out for current session
+                state.data = {};
+                state.isLoggedIn = false;
+                state.role = ''
+            })
+    }
 })
 
 // export const {} = authSlice.actions;

@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 
 import Footer from "../Components/Footer";
-// import auth from "../Redux/Slices/AuthSlice";
+import { logout } from "../Redux/Slices/AuthSlice";
 
 const HomeLayout = ({ children }) => {
   const dispatch = useDispatch();
@@ -29,8 +29,8 @@ const HomeLayout = ({ children }) => {
   }
   async function handleLogout(e) {
     e.preventDefault();
-    // const result = await dispatch(logout());
-    // if(result?.payload?.success)
+    const result = await dispatch(logout());
+    if(result?.payload?.success)
     navigate('/')
   }
   return (
