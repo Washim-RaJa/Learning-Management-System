@@ -11,9 +11,7 @@ export const getAllCourses = createAsyncThunk('courses/get', async () => {
         const res = axiosInstance.get('courses')
         toast.promise(res, {
             loading: "Fethcing courses, please wait..!",
-            success: (data)=>{
-                return data?.data?.message
-            },
+            success: "Course loaded successfully!",
             error: "Failed to load courses"
         })
         return (await res).data.courses

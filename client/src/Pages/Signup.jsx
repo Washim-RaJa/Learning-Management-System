@@ -4,6 +4,7 @@ import { BsPersonCircle } from "react-icons/bs";
 import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 
+import { isEmail, isValidPassword } from "../Helpers/regexMatcher.js";
 import HomeLayout from "../Layouts/HomeLayout";
 import { createAccount } from "../Redux/Slices/AuthSlice";
 
@@ -56,16 +57,12 @@ const Signup = () => {
       toast.error("Name should be at least of 3 characters.");
       return;
     }
-    if (
-        !signupData.email.match(
-        /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-      )
-    ) {
+    if (!isEmail(signupData.email)) {
       toast.error("Invalid email id.");
       return;
     }
     // you should have 6 to 16 valid characters | has at least one number | has at least one special character
-    if (!signupData.password.match(/^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{8,16}$/)) {
+    if (!isValidPassword(signupData.password)) {
       toast.error("Password should be 8 to 16 characters long with at least a number & a special character");
       return;
     }
