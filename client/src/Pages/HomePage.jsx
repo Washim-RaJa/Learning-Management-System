@@ -22,7 +22,7 @@ const HomePage = () => {
                     </Link>
                     <Link to={'/contact'}>
                         <button className="border border-yellow-500 px-5 py-3 rounded-md font-semibold text-lg cursor-pointer hover:bg-yellow-600 transition-all ease-in-out duration-300">
-                            Explore Courses
+                            Contact Us
                         </button>
                     </Link>
                 </div>
