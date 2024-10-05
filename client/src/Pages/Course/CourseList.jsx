@@ -16,7 +16,6 @@ const CourseList = () => {
     useEffect(()=>{
         loadCourses();
     }, [])
-    console.log("courseData", courseData);
     
   return (
     <HomeLayout>
@@ -27,7 +26,7 @@ const CourseList = () => {
             </h1>
             <div className="mb-10 flex flex-wrap gap-14">
                 {courseData?.map((element)=> (
-                    <CourseCard key={element.id} data={element}/>
+                    <CourseCard key={element._id} data={element}/>
                 ))}
             </div>
         </div>
