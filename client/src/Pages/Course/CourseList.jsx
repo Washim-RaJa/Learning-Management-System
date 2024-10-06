@@ -7,7 +7,7 @@ import { getAllCourses } from "../../Redux/Slices/CourseSlice"
 
 const CourseList = () => {
     const dispatch = useDispatch()
-    const { courseData } = useSelector(state => state?.course)
+    const { courseData } = useSelector(state => state?.course)  // course is the key name of courseSliceReducer in store.js
 
     async function loadCourses () {
         await dispatch(getAllCourses());
