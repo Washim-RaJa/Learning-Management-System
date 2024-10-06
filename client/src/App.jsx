@@ -13,6 +13,8 @@ import HomePage from './Pages/HomePage'
 import Login from './Pages/Login'
 import NotFound from './Pages/NotFound'
 import Signup from './Pages/Signup'
+import EditProfile from './Pages/User/EditProfile'
+import Profile from './Pages/User/Profile'
 
 function App() {
 
@@ -23,14 +25,19 @@ function App() {
           <Route path='/about' element={<AboutUs/>}/>
           <Route path='/signup' element={<Signup/>}/>
           <Route path='/login' element={<Login/>}/>
+          <Route path='/courses' element={<CourseList/>}/>
+          <Route path='/course/description' element={<CourseDescription/>}/>
+          <Route path='/contact' element={<Contact/>}/>
+
+          <Route element={<RequireAuth allowedRoles={["ADMIN", "USER"]}/>} >
+            <Route path='/user/profile' element={<Profile/>}/>
+            <Route path='/user/editprofile' element={<EditProfile/>}/>
+          </Route>
 
           <Route element={<RequireAuth allowedRoles={["ADMIN"]}/>} >
             <Route path='/course/create' element={<CreateCourse/>}/>
           </Route>
 
-          <Route path='/courses' element={<CourseList/>}/>
-          <Route path='/course/description' element={<CourseDescription/>}/>
-          <Route path='/contact' element={<Contact/>}/>
           <Route path='/denied' element={<Denied/>}/>
           <Route path='*' element={<NotFound/>}/>
       </Routes>
