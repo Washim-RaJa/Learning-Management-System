@@ -13,6 +13,8 @@ import HomePage from './Pages/HomePage'
 import Login from './Pages/Login'
 import NotFound from './Pages/NotFound'
 import Checkout from './Pages/Payment/Checkout'
+import CheckoutFailure from './Pages/Payment/CheckoutFailure'
+import CheckoutSuccess from './Pages/Payment/CheckoutSuccess'
 import Signup from './Pages/Signup'
 import EditProfile from './Pages/User/EditProfile'
 import Profile from './Pages/User/Profile'
@@ -34,6 +36,8 @@ function App() {
             <Route path='/user/profile' element={<Profile/>}/>
             <Route path='/user/editprofile' element={<EditProfile/>}/>
             <Route path='/checkout' element={<Checkout/>}/>
+            <Route path='/checkout/success' element={<CheckoutSuccess/>}/>
+            <Route path='/checkout/fail' element={<CheckoutFailure/>}/>
           </Route>
 
           <Route element={<RequireAuth allowedRoles={["ADMIN"]}/>} >
