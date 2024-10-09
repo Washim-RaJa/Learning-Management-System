@@ -44,7 +44,7 @@ const Login = () => {
 
   return (
     <HomeLayout>
-      <div className="h-[90.1vh] flex items-center justify-center">
+      <div className="h-[90.1vh] px-5 flex items-center justify-center">
         <form
           noValidate
           onSubmit={onLogin}

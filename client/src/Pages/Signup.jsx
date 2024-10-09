@@ -87,7 +87,7 @@ const Signup = () => {
 
   return (
     <HomeLayout>
-      <div className="h-[90.1vh] flex items-center justify-center">
+      <div className="min-h-[90.1vh] pb-10 pt-20 px-5 flex items-center justify-center">
         <form
           noValidate
           onSubmit={createNewAccount}
@@ -164,7 +164,7 @@ const Signup = () => {
           >
             Create account
           </button>
-          <p className="text-center">
+          <p className="text-center whitespace-nowrap">
             Already have an account ?{" "}
             <Link to="/login" className="link text-accent">
               Log in

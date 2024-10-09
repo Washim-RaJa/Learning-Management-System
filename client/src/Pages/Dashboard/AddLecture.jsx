@@ -11,7 +11,6 @@ const AddLecture = () => {
   const courseDetails = useLocation().state;
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  console.log(courseDetails);
   
   const [userInput, setUserInput] = useState({
     id: courseDetails?._id,
@@ -30,7 +29,6 @@ const AddLecture = () => {
   function handleVideo(e) {
     const video = e.target.files[0];
     const source = window.URL.createObjectURL(video);
-    console.log(source);
     setUserInput({
       ...userInput,
       lecture: video,

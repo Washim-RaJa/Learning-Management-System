@@ -23,9 +23,6 @@ const HomeLayout = ({ children }) => {
   function hideDrawer() {
     const element = document.getElementsByClassName("drawer-toggle");
     element[0].checked = false;
-    // changeWidth();
-    // const drawerSide = document.getElementsByClassName("drawer-side");
-    // drawerSide[0].style.width = 0;
   }
   async function handleLogout(e) {
     e.preventDefault();
@@ -83,10 +80,10 @@ const HomeLayout = ({ children }) => {
             {!isLoggedIn && (
               <li className="absolute bottom-4 w-[90%]">
                 <div className="w-full flex gap-2 items-center justify-center">
-                  <button className="btn btn-primary font-semibold rounded-md w-1/2">
-                    <Link to={"/login"}>Login</Link>
+                  <button className="btn btn-primary font-semibold rounded-md sm:w-1/2">
+                    <Link to={"/login"}>Log in</Link>
                   </button>
-                  <button className="btn btn-secondary font-semibold rounded-md w-1/2">
+                  <button className="btn btn-secondary font-semibold rounded-md sm:w-1/2">
                     <Link to={"/signup"}>Sign up</Link>
                   </button>
                 </div>
@@ -95,10 +92,10 @@ const HomeLayout = ({ children }) => {
             {isLoggedIn && (
               <li className="absolute bottom-4 w-[90%]">
                 <div className="w-full flex gap-2 items-center justify-center">
-                  <button className="btn btn-primary font-semibold rounded-md w-1/2">
+                  <button className="btn btn-primary font-semibold rounded-md sm:w-1/2">
                     <Link to={"/user/profile"}>Profile</Link>
                   </button>
-                  <button className="btn btn-secondary font-semibold rounded-md w-1/2">
+                  <button className="btn btn-secondary font-semibold rounded-md sm:w-1/2">
                     <Link onClick={handleLogout}>Log out</Link>
                   </button>
                 </div>

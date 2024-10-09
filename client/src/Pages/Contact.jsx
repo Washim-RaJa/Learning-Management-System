@@ -51,7 +51,7 @@ const Contact = () => {
   }
   return (
     <HomeLayout>
-      <div className="flex items-center justify-center h-[100vh]">
+      <div className="flex items-center justify-center pt-20 pb-10 px-5 min-h-[100vh]">
         <form
           noValidate
           onSubmit={onFormSubmit}
