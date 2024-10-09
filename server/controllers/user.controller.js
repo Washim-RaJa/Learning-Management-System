@@ -56,7 +56,7 @@ const register = async (req, res, next) => {
           user.avatar.secure_url = result.secure_url;
 
           // After successful upload remove the file from local storage(from uploads folder)
-          fs.rm(`uploads/${req.file.filename}`);
+          fs.rm(`server/uploads/${req.file.filename}`);
         }
       } catch (error) {
         return next(
@@ -278,7 +278,7 @@ const updateUser = async (req, res, next) => {
         user.avatar.secure_url = result.secure_url;
 
         // After successful upload remove the file from local storage(from uploads folder)
-        fs.rm(`uploads/${req.file.filename}`);
+        fs.rm(`server/uploads/${req.file.filename}`);
       }
     } catch (error) {
       return next(
