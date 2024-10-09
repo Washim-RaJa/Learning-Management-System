@@ -82,6 +82,11 @@ const Login = () => {
               placeholder="Enter your password ..."
             />
           </div>
+          <p className="text-sm text-right">
+            <Link to="/forgotpassword" className="link text-accent">
+              Forgot password?
+            </Link>
+          </p>
           <button
             type="submit"
             className="mt-2 bg-yellow-600 hover:bg-yellow-500 transition-all ease-in-out duration-300 rounded-sm py-2 font-semibold text-lg cursor-pointer"

@@ -19,8 +19,11 @@ import Checkout from './Pages/Payment/Checkout'
 import CheckoutFailure from './Pages/Payment/CheckoutFailure'
 import CheckoutSuccess from './Pages/Payment/CheckoutSuccess'
 import Signup from './Pages/Signup'
+import ChangePassword from './Pages/User/ChangePassword'
 import EditProfile from './Pages/User/EditProfile'
+import ForgotPassword from './Pages/User/ForgotPassword'
 import Profile from './Pages/User/Profile'
+import ResetForgotPassword from './Pages/User/ResetForgotPassword'
 
 function App() {
 
@@ -34,10 +37,13 @@ function App() {
           <Route path='/courses' element={<CourseList/>}/>
           <Route path='/course/description' element={<CourseDescription/>}/>
           <Route path='/contact' element={<Contact/>}/>
+          <Route path='/forgotpassword' element={<ForgotPassword/>}/>
+          <Route path='/reset-password/:resetToken' element={<ResetForgotPassword/>}/>
 
           <Route element={<RequireAuth allowedRoles={["ADMIN", "USER"]}/>} >
             <Route path='/user/profile' element={<Profile/>}/>
             <Route path='/user/editprofile' element={<EditProfile/>}/>
+            <Route path='/changepassword' element={<ChangePassword/>}/>
             <Route path='/checkout' element={<Checkout/>}/>
             <Route path='/checkout/success' element={<CheckoutSuccess/>}/>
             <Route path='/checkout/fail' element={<CheckoutFailure/>}/>

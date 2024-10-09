@@ -80,6 +80,48 @@ export const getUserData = createAsyncThunk("/user/details", async ()=> {
         toast.error(error?.message)
     }
 })
+export const changePassword = createAsyncThunk("auth/changePassword", async (data)=> {
+    try {
+        const response = axiosInstance.post('/user/change-password', data);
+        toast.promise(response, {
+            loading: "Changing your password, please wait..!",
+            success: (data)=> data?.data?.message,
+            error: "Failed to change your password"
+        })
+        return (await response).data
+    } catch (error) {
+        toast.error(error?.message)
+    }
+})
+export const forgotPassword = createAsyncThunk("auth/forgotPassword", async (email) => {
+    try {
+        
+        const response = axiosInstance.post('/user/reset', { email });
+        console.log(email);
+        toast.promise(response, {
+            loading: "Sending password token to your email, please wait..!",
+            success: (data)=> data?.data?.message,
+            error: "Failed to send password token to your email"
+        })
+        return (await response).data
+    } catch (error) {
+        toast.error(error?.message)
+    }
+})
+export const resetPasswordToken = createAsyncThunk("auth/resetPasswordToken", async (data)=> {
+    try {
+        const { confirmNewPassword, resetToken} = data;
+        const response = axiosInstance.post(`/user/reset/${resetToken}`, {password: confirmNewPassword});
+        toast.promise(response, {
+            loading: "Resetting your new password, please wait.!",
+            success: (data)=> data?.data?.message,
+            error: "Failed to reset your password"
+        })
+        return (await response).data
+    } catch (error) {
+        toast.error(error?.message)
+    }
+})
 const authSlice = createSlice({
     name: 'auth',
     initialState,
@@ -87,6 +129,9 @@ const authSlice = createSlice({
     extraReducers: (builder)=>{
         builder
             .addCase(login.fulfilled, (state, action)=>{
+                if (!action.payload) {
+                    return
+                }
                 // This data will fetch when app reloads
                 localStorage.setItem('data', JSON.stringify(action?.payload?.user));
                 localStorage.setItem('isLoggedIn', true);
