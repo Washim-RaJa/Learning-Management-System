@@ -66,7 +66,7 @@ const createCourse = async function (req, res, next) {
                     course.thumbnail.public_id = result.public_id;
                     course.thumbnail.secure_url = result.secure_url
                 }
-                fs.rm(`server/uploads/${req.file.filename}`)
+                fs.rm(`uploads/${req.file.filename}`)
             } catch (error) {
                 next(new AppError(error.message, 400))
             }
@@ -145,7 +145,7 @@ const addLectureToCourseById = async function (req, res, next) {
                     lectureData.lecture.public_id = result.public_id;
                     lectureData.lecture.secure_url = result.secure_url
                 }
-                fs.rm(`server/uploads/${req.file.filename}`)
+                fs.rm(`uploads/${req.file.filename}`)
             } catch (error) {
                 next(
                     new AppError(
