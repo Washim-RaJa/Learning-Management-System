@@ -18,7 +18,8 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true}))  // helps parse encoded urls
 
 app.use(cors({
-    origin: [process.env.FRONTEND_URL],
+    // origin: [process.env.FRONTEND_URL],
+    origin: ["https://skillify-q9pn.onrender.com"],
     credentials: true
 }));
 
