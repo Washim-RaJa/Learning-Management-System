@@ -35,7 +35,7 @@ app.use('/api/v1/courses', courseRoutes);
 app.use('/api/v1/payments', paymentRoutes);
 app.use('/api/v1', miscRoutes);
 
-app.all('*', (req, res)=>{
+app.all('/api/*', (req, res)=>{
     res.status(404).send("Oops!! 404 page not found!")
 })
 

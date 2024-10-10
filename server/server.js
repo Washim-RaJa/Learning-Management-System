@@ -3,6 +3,8 @@ import { config } from "dotenv";
 import connectionToDB from "./config/dbConnection.js";
 import cloudinary from 'cloudinary';
 import Razorpay from 'razorpay';
+import path from 'path';
+import express from "express";
 
 config();
 
@@ -20,6 +22,12 @@ export const razorpay = new Razorpay({
     key_secret: process.env.RAZORPAY_SECRET
 });
 
+const __dirname = path.resolve()
+app.use(express.static(path.join(__dirname, '/client/dist')));
+
+app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, 'client', 'dist', 'index.html'))
+})
 
 app.listen(PORT, async () => {
     await connectionToDB();
